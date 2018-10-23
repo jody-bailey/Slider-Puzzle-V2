@@ -42,7 +42,7 @@ class Main:
         node = self.create_note(self.state_array, self.state_string)
         search = BreadthSearch(node)
         if not search.complete(node['state_array']):
-            print('The search is not complete')
+            search.run()
         self.print_array()
 
 
