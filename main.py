@@ -1,5 +1,6 @@
 """This module needs comments"""
 from breadth_first import BreadthSearch
+from node import Node
 
 
 class Main:
@@ -29,11 +30,9 @@ class Main:
     @staticmethod
     def create_note(state_array, state_string):
         """Needs comments"""
-        node = {'state_array': state_array,
-                'state_string': state_string,
-                'depth': 0,
-                'heuristic': 0,
-                'path': []}
+        path = {0: state_string}
+        node = Node(state_array, state_string, path)
+
         return node
 
     def run(self):
@@ -41,7 +40,7 @@ class Main:
         self.set_array()
         node = self.create_note(self.state_array, self.state_string)
         search = BreadthSearch(node)
-        if not search.complete(node['state_array']):
+        if not search.complete(node.state_array):
             search.run()
         self.print_array()
 
