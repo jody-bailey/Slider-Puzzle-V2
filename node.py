@@ -7,7 +7,7 @@ class Node(NodeMixin):
     # Variables for my Nodes
     state_array = []
     state_string = ''
-    path = []
+    path = {}
     depth = 0
     heuristic = 0
 

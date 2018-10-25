@@ -1,6 +1,7 @@
 """This module needs comments"""
 from breadth_first import BreadthSearch
 from node import Node
+import time
 
 
 class Main:
@@ -37,12 +38,14 @@ class Main:
 
     def run(self):
         """Needs comments"""
+        start = time.time()
         self.set_array()
         node = self.create_note(self.state_array, self.state_string)
         search = BreadthSearch(node)
-        if not search.complete(node.state_array):
+        if not search.complete(node):
             search.run()
-        self.print_array()
+        end = time.time()
+        print(end - start)
 
 
 if __name__ == '__main__':
