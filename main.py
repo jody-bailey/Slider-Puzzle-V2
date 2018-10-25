@@ -36,11 +36,44 @@ class Main:
 
         return node
 
+    def check_state(self, state):
+        if len(state) != 9:
+            return False
+        valid = True
+        try:
+            for i in range(8):
+                if state.count(str(i)) > 1 or state.count(str(i)) == 0:
+                    valid = False
+                    return False
+        except IndexError:
+            valid = False
+            return False
+        finally:
+            if valid:
+                return True
+
+    def display_menu(self):
+        print('Please select from the following menu options:\n')
+        print('[1] Enter starting positions')
+        print('[2] Randomly generate starting positions')
+        answer = input()
+        while answer != '1' and answer != '2':
+            answer = input('Please enter either \'1\' or \'2\'\n')
+
+        if answer == '1':
+            state = input('Please enter the starting positions.\n'
+                          '(Numbers between 0-8 with no numbers repeated)\n')
+            while not self.check_state(state):
+                state = input('Enter the right numbers retard!\n')
+            return state
+
     def run(self):
         """Needs comments"""
+        state = self.display_menu()
         start = time.time()
-        self.set_array()
-        node = self.create_note(self.state_array, self.state_string)
+        array = BreadthSearch.create_array(state)
+        # self.set_array()
+        node = self.create_note(array, self.state_string)
         search = BreadthSearch(node)
         if not search.complete(node):
             search.run()

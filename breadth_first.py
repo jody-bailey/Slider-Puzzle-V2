@@ -22,7 +22,8 @@ class BreadthSearch:
 
         return node
 
-    def create_array(self, state_string):
+    @staticmethod
+    def create_array(state_string):
         """Needs comments"""
         array = [0] * 3
         for i in range(3):
