@@ -9,7 +9,7 @@ class Main:
     state_array = []
     state_string = ''
 
-    def __init__(self, state_string):
+    def __init__(self, state_string=None):
         self.state_array = [0] * 3
         for i in range(3):
             self.state_array[i] = [0] * 3
@@ -73,7 +73,7 @@ class Main:
         start = time.time()
         array = BreadthSearch.create_array(state)
         # self.set_array()
-        node = self.create_note(array, self.state_string)
+        node = self.create_note(array, state)
         search = BreadthSearch(node)
         if not search.complete(node):
             search.run()
@@ -82,5 +82,5 @@ class Main:
 
 
 if __name__ == '__main__':
-    RUN = Main('783415602')
+    RUN = Main()
     RUN.run()
