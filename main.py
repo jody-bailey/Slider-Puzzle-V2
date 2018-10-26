@@ -1,5 +1,7 @@
 """This module needs comments"""
 from breadth_first import BreadthSearch
+from depth_first import DepthSearch
+from generator import Generator
 from node import Node
 import time
 
@@ -29,10 +31,10 @@ class Main:
             print(' '.join(str(elem) for elem in row))
 
     @staticmethod
-    def create_note(state_array, state_string):
+    def create_node(state_array, state_string):
         """Needs comments"""
-        path = {0: state_string}
-        node = Node(state_array, state_string, path)
+        # path = {0: state_string}
+        node = Node(state_array, state_string)
 
         return node
 
@@ -66,17 +68,34 @@ class Main:
             while not self.check_state(state):
                 state = input('Enter the right numbers retard!\n')
             return state
+        elif answer == '2':
+            generator = Generator()
+            generator.set_array()
+            generator.print_array()
+            generator.randomize()
+            generator.print_array()
+
+            return generator.get_array()
 
     def run(self):
         """Needs comments"""
         state = self.display_menu()
         start = time.time()
-        array = BreadthSearch.create_array(state)
+        if isinstance(state, str):
+            array = BreadthSearch.create_array(state)
+        else:
+            array = state
+            self.state_array = array
+            state = BreadthSearch.create_state_string(array)
         # self.set_array()
-        node = self.create_note(array, state)
-        search = BreadthSearch(node)
-        if not search.complete(node):
-            search.run()
+        print('Starting Array:\n')
+        self.print_array()
+        node1 = self.create_node(array, state)
+        node2 = self.create_node(array, state)
+        breadth = BreadthSearch(node1)
+        breadth.run()
+        depth = DepthSearch(node2)
+        depth.run()
         end = time.time()
         print(end - start)
 

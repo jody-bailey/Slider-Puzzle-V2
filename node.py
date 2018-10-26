@@ -7,16 +7,16 @@ class Node(NodeMixin):
     # Variables for my Nodes
     state_array = []
     state_string = ''
-    traveled_path = {}
+    # traveled_path = {}
     depth = 0
     heuristic = 0
 
     # Constructor
-    def __init__(self, state_array, state_string, path, depth=None, heuristic=None, parent=None):
+    def __init__(self, state_array, state_string, depth=None, heuristic=None, parent=None):
         super(Node, self).__init__()
         self.state_array = state_array
         self.state_string = state_string
-        self.traveled_path = path
+        # self.traveled_path = path
         self.depth = depth
         self.heuristic = heuristic
         self.parent = parent

@@ -1,22 +1,21 @@
 """Module needs comments"""
 from node import Node
-from _collections import deque
 
 
-class BreadthSearch:
+class DepthSearch:
     """Needs comments"""
     counter = 0
     node = {}
-    queue = deque([])
+    stack = []
     visited = {}
 
     def __init__(self, node):
         self.counter = 0
         self.node = node
         self.visited = {node.state_string: node.state_string}
-        self.queue = deque([node])
+        self.stack = [node]
 
-    def create_note(self, state_array, state_string, depth, heuristic, parent):
+    def create_node(self, state_array, state_string, depth, heuristic, parent):
         """Needs comments"""
         node = Node(state_array, state_string, depth, heuristic, parent)
 
@@ -95,23 +94,23 @@ class BreadthSearch:
             test_node[new_loc[0]][new_loc[1]], test_node[location[0]][location[1]]
         return test_node
 
-    def add_moves_to_queue(self, moves, parent):
+    def add_moves_to_stack(self, moves, parent):
         """Needs comments"""
         for move in moves:
             if not self.check_visited(move):
                 array = self.create_array(move)
-                # path = self.node.traveled_path
                 self.count_up()
-                # path.update({self.counter + 1: move})
-                node = self.create_note(array, move, 0, 0, parent)
-                self.queue.append(node)
+                # self.node.traveled_path.update({self.counter + 1: move})
+                # path = self.node.traveled_path
+                node = self.create_node(array, move, 0, 0, parent)
+                self.stack.append(node)
                 self.visited.update({move: move})
             # if move not in self.visited:
 
     def make_move(self, node):
         """Needs comments"""
         self.count_up()
-        self.node = self.queue.popleft()
+        self.node = self.stack.pop()
 
     def check_moves(self, location):
         """Needs comments"""
@@ -177,17 +176,17 @@ class BreadthSearch:
 
     def run(self):
         """Needs comments"""
-        print('Running Breadth First Search...')
-        while len(self.queue) > 0:
-            self.node = self.queue.popleft()
+        print('Running Depth First Search...')
+        while len(self.stack) > 0:
+            self.node = self.stack.pop()
             if not self.complete(self.node):
-                # if self.counter % 10000 == 0:
-                #     print('{}'.format(self.counter))
+                if self.counter % 1000 == 0:
+                    print('{}'.format(self.counter))
                 location = self.locate_hole(self.node.state_array)
                 moves = self.check_moves(location)
-                self.add_moves_to_queue(moves, self.node)
-                if len(self.queue) == 0:
-                    print('empty queue')
+                self.add_moves_to_stack(moves, self.node)
+                if len(self.stack) == 0:
+                    print('empty stack')
                     print(self.counter)
                     return
             else:
