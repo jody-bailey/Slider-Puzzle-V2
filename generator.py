@@ -1,5 +1,12 @@
+# Jody Bailey
+# Intro to AI
+# 10/31/2018
+# This class is used to generate random boards that the program can
+# then use for the different searches.
+
 from breadth_first import BreadthSearch
 import random
+
 
 class Generator:
     array = []
@@ -13,6 +20,7 @@ class Generator:
     seven = []
     eight = []
 
+    # Constructor
     def __init__(self):
         self.array = [0] * 3
         for i in range(3):
@@ -28,6 +36,7 @@ class Generator:
         self.seven = [self.swap_4_and_7, self.swap_6_and_7, self.swap_7_and_8]
         self.eight = [self.swap_5_and_8, self.swap_7_and_8]
 
+    # Method used to set the class level variable named 'array'
     def set_array(self):
         state = '123456780'
         index = 0
@@ -36,9 +45,8 @@ class Generator:
                 self.array[i][j] = int(state[index])
                 index += 1
 
-    def print_array(self):
-        print(' '.join(str(elem) for row in self.array for elem in row))
-
+    # This method will take the goal state of a board and apply random
+    # moves to it to create a random board every time.
     def randomize(self):
         rand = random.randint(500, 1000)
 
@@ -66,6 +74,8 @@ class Generator:
     def get_array(self):
         return self.array
 
+    # All of the methods below are used from swapping the position of
+    # 0 and the new location of 0.
     def swap_0_and_1(self):
         """Needs comments"""
         self.array[0][0], self.array[0][1] = \
@@ -125,4 +135,3 @@ class Generator:
         """Needs comments"""
         self.array[2][1], self.array[2][2] = \
             self.array[2][2], self.array[2][1]
-

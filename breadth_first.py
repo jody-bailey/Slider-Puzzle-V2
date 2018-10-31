@@ -1,16 +1,23 @@
-"""Module needs comments"""
+# Jody Bailey
+# Intro to AI
+# 10/31/2018
+# This class is used to perform the breadth first search. It was designed
+# to be able to function as a stand-alone class as long as it receives the
+# required data to start.
+
 from node import Node
 from _collections import deque
 
 
 class BreadthSearch:
-    """Needs comments"""
+    """Breadth First Search Class"""
     counter = 0
     node = {}
     queue = deque([])
     visited = {}
     path = {}
 
+    # Constructor
     def __init__(self, node):
         self.counter = 0
         self.node = node
@@ -18,12 +25,14 @@ class BreadthSearch:
         self.queue = deque([node])
         self.path = {node: [node.state_string]}
 
-    def create_note(self, state_array, state_string, path, depth, heuristic, parent):
+    # Method used to create a node from the Node class.
+    def create_node(self, state_array, state_string, depth, heuristic, parent):
         """Needs comments"""
-        node = Node(state_array, state_string, path, depth, heuristic, parent)
+        node = Node(state_array, state_string, depth, heuristic, parent)
 
         return node
 
+    # Method used to create the array when given the state_string
     @staticmethod
     def create_array(state_string):
         """Needs comments"""
@@ -39,6 +48,7 @@ class BreadthSearch:
 
         return array
 
+    # Method used to create the state string when you pass it an array.
     @staticmethod
     def create_state_string(array):
         state = ''
@@ -47,27 +57,28 @@ class BreadthSearch:
                 state += str(array[i][j])
         return state
 
+    # Method to determine if the node passed in is the goal state.
     def complete(self, node):
         """Needs comments"""
         # path = ''.join(str(elem) for row in node for elem in row)
         return node.state_string == '123456780'
 
+    # Method to increment the counter
     def count_up(self):
         """needs comments"""
         self.counter += 1
 
-    def set_state_string(self):
-        """Needs comments"""
-        self.node['state_string'] = ''.join(str(elem) for row in self.node for elem in row)
-
+    # Method used to get the state string from an array
     def get_state_string(self, node):
         """Needs comments"""
         return ''.join(str(elem) for row in node for elem in row)
 
+    # Method used to check if a state has already been visited
     def check_visited(self, state):
         """Needs comments"""
         return state in self.visited
 
+    # Method to find the position of 0.
     @staticmethod
     def locate_hole(node):
         """Needs comments"""
@@ -77,6 +88,7 @@ class BreadthSearch:
                 if array[i][j] == 0:
                     return i, j
 
+    # Method to check if the new location would be out of bounds.
     def check_bounds(self, location):
         """Needs comments"""
         if location[0] > 2:
@@ -90,6 +102,7 @@ class BreadthSearch:
         else:
             return True
 
+    # Method to swap the 0 and the new location.
     def swap_locations(self, node, location, new_loc):
         """Needs comments"""
         test_node = node
@@ -97,15 +110,14 @@ class BreadthSearch:
             test_node[new_loc[0]][new_loc[1]], test_node[location[0]][location[1]]
         return test_node
 
+    # Method to add the moves found to the queue
     def add_moves_to_queue(self, moves, parent):
         """Needs comments"""
         for move in moves:
             if not self.check_visited(move):
                 array = self.create_array(move)
-                # path = self.node.traveled_path
                 self.count_up()
-                # path.update({self.counter + 1: move})
-                node = self.create_note(array, move, [], 0, 0, parent)
+                node = self.create_node(array, move, 0, 0, parent)
                 try:
                     this_parent = self.node.parent
                     self.path[node] = this_parent.path
@@ -115,13 +127,9 @@ class BreadthSearch:
                     '''do nothing'''
                 self.queue.append(node)
                 self.visited.update({move: move})
-            # if move not in self.visited:
 
-    def make_move(self, node):
-        """Needs comments"""
-        self.count_up()
-        self.node = self.queue.popleft()
-
+    # Method to check the current location for children and returns
+    # those children to the run() method.
     def check_moves(self, location):
         """Needs comments"""
         possible_moves = []
@@ -156,41 +164,14 @@ class BreadthSearch:
 
         return possible_moves
 
+    # Method to print an array
     def print_array(self, array):
         """Needs comments"""
         for row in array:
             print(' '.join(str(elem) for elem in row))
 
-    def get_path(self, node):
-        path = []
-        while node:
-            path.append(node.state_string)
-            node = node.parent
-        return path
-
-    def check_positions(self, node, location):
-        """Needs comments"""
-        array = node
-
-        if location == (0, 0) and array[location[0]][location[1]] == 1:
-            return False
-        elif location == (0, 1) and array[location[0]][location[1]] == 2:
-            return False
-        elif location == (0, 2) and array[location[0]][location[1]] == 3:
-            return False
-        elif location == (1, 0) and array[location[0]][location[1]] == 4:
-            return False
-        elif location == (1, 1) and array[location[0]][location[1]] == 5:
-            return False
-        elif location == (1, 2) and array[location[0]][location[1]] == 6:
-            return False
-        elif location == (2, 0) and array[location[0]][location[1]] == 7:
-            return False
-        elif location == (2, 1) and array[location[0]][location[1]] == 8:
-            return False
-        else:
-            return True
-
+    # Main method of this class. It brings together all of the functionality from
+    # the other methods and runs the search.
     def run(self):
         """Needs comments"""
         print('Running Breadth First Search...')
@@ -209,15 +190,5 @@ class BreadthSearch:
             else:
                 self.print_array(self.node.state_array)
                 print()
-                print(self.counter)
-                print()
-                final_path = self.get_path(self.node)
-                final_path.reverse()
-                print(' '.join(str(elem) for elem in final_path))
-                # for node in self.node.path:
-                #     final_path.append(node.state_string)
-                # print(final_path)
-                return
 
-        my_array = self.node.state_array
-        print(''.join(str(elem) for row in my_array for elem in row))
+                return
