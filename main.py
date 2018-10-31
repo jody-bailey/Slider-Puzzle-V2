@@ -33,8 +33,8 @@ class Main:
     @staticmethod
     def create_node(state_array, state_string):
         """Needs comments"""
-        # path = {0: state_string}
-        node = Node(state_array, state_string)
+        path = [state_string]
+        node = Node(state_array, state_string, path)
 
         return node
 

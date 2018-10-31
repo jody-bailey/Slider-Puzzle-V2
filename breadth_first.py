@@ -9,16 +9,18 @@ class BreadthSearch:
     node = {}
     queue = deque([])
     visited = {}
+    path = {}
 
     def __init__(self, node):
         self.counter = 0
         self.node = node
         self.visited = {node.state_string: node.state_string}
         self.queue = deque([node])
+        self.path = {node: [node.state_string]}
 
-    def create_note(self, state_array, state_string, depth, heuristic, parent):
+    def create_note(self, state_array, state_string, path, depth, heuristic, parent):
         """Needs comments"""
-        node = Node(state_array, state_string, depth, heuristic, parent)
+        node = Node(state_array, state_string, path, depth, heuristic, parent)
 
         return node
 
@@ -103,7 +105,14 @@ class BreadthSearch:
                 # path = self.node.traveled_path
                 self.count_up()
                 # path.update({self.counter + 1: move})
-                node = self.create_note(array, move, 0, 0, parent)
+                node = self.create_note(array, move, [], 0, 0, parent)
+                try:
+                    this_parent = self.node.parent
+                    self.path[node] = this_parent.path
+                    self.path[node].append(node.state_string)
+                    node.path = self.path[node]
+                except AttributeError:
+                    '''do nothing'''
                 self.queue.append(node)
                 self.visited.update({move: move})
             # if move not in self.visited:
@@ -152,6 +161,13 @@ class BreadthSearch:
         for row in array:
             print(' '.join(str(elem) for elem in row))
 
+    def get_path(self, node):
+        path = []
+        while node:
+            path.append(node.state_string)
+            node = node.parent
+        return path
+
     def check_positions(self, node, location):
         """Needs comments"""
         array = node
@@ -195,10 +211,12 @@ class BreadthSearch:
                 print()
                 print(self.counter)
                 print()
-                final_path = []
-                for node in self.node.path:
-                    final_path.append(node.state_string)
-                print(final_path)
+                final_path = self.get_path(self.node)
+                final_path.reverse()
+                print(' '.join(str(elem) for elem in final_path))
+                # for node in self.node.path:
+                #     final_path.append(node.state_string)
+                # print(final_path)
                 return
 
         my_array = self.node.state_array

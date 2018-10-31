@@ -8,12 +8,14 @@ class DepthSearch:
     node = {}
     stack = []
     visited = {}
+    path = {}
 
     def __init__(self, node):
         self.counter = 0
         self.node = node
         self.visited = {node.state_string: node.state_string}
         self.stack = [node]
+        self.path = {node: [node.state_string]}
 
     def create_node(self, state_array, state_string, depth, heuristic, parent):
         """Needs comments"""
@@ -103,6 +105,12 @@ class DepthSearch:
                 # self.node.traveled_path.update({self.counter + 1: move})
                 # path = self.node.traveled_path
                 node = self.create_node(array, move, 0, 0, parent)
+                try:
+                    this_parent = self.node.parent
+                    self.path[node] = this_parent.path
+                    self.path[node].append(node.state_string)
+                except AttributeError:
+                    '''do nothing'''
                 self.stack.append(node)
                 self.visited.update({move: move})
             # if move not in self.visited:
@@ -151,6 +159,13 @@ class DepthSearch:
         for row in array:
             print(' '.join(str(elem) for elem in row))
 
+    def get_path(self, node):
+        path = []
+        while node:
+            path.append(node.state_string)
+            node = node.parent
+        return path
+
     def check_positions(self, node, location):
         """Needs comments"""
         array = node
@@ -194,10 +209,14 @@ class DepthSearch:
                 print()
                 print(self.counter)
                 print()
-                final_path = []
-                for node in self.node.path:
-                    final_path.append(node.state_string)
-                print(final_path)
+                final_path = self.get_path(self.node)
+                final_path.reverse()
+                print(' '.join(str(elem) for elem in final_path))
+                print(len(final_path))
+                print(' '.join(str(elem) for elem in self.path[self.node.parent]))
+                # for node in self.node.path:
+                #     final_path.append(node.state_string)
+                # print(final_path)
                 return
 
         my_array = self.node.state_array
