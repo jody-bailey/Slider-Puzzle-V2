@@ -8,7 +8,7 @@ from anytree import NodeMixin
 from _collections import deque
 
 
-class Node(NodeMixin):
+class Node:
     # Variables for my Nodes
     state_array = []
     state_string = ''
@@ -26,3 +26,6 @@ class Node(NodeMixin):
         self.path = path
         self.heuristic = heuristic
         self.parent = parent
+
+    def __lt__(self, other):
+        return self.heuristic < other.heuristic

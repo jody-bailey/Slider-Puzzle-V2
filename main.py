@@ -8,11 +8,14 @@
 # the program took to execute.
 """Main Class"""
 
+import time
+import os
 from breadth_first import BreadthSearch
 from depth_first import DepthSearch
+from misplaced_tiles import MisplacedTiles
+from manhattan import ManhattanDistance
 from generator import Generator
 from node import Node
-import time
 
 
 class Main:
@@ -43,9 +46,9 @@ class Main:
 
     # Method to create a new node
     @staticmethod
-    def create_node(state_array, state_string):
+    def create_node(state_array, state_string, heuristic=None):
         path = [state_string]
-        node = Node(state_array, state_string, path)
+        node = Node(state_array, state_string, path, heuristic=heuristic)
 
         return node
 
@@ -98,8 +101,10 @@ class Main:
         answer2 = input('Please select which search you would like to perform: \n'
                         '[1] Breadth First Search\n'
                         '[2] Depth First Search\n'
-                        '[3] Both\n')
-        while answer2 != '1' and answer2 != '2' and answer2 != '3':
+                        '[3] A* misplaced tiles\n'
+                        '[4] A* Manhatten Distance\n'
+                        '[5] All\n')
+        while answer2 != '1' and answer2 != '2' and answer2 != '3' and answer2 != '4' and answer2 != '5':
             answer2 = input('Invalid answer. Please try again!')
         print()
         if answer2 == '1':
@@ -107,7 +112,11 @@ class Main:
         elif answer2 == '2':
             answers['search'] = 'depth'
         elif answer2 == '3':
-            answers['search'] = 'both'
+            answers['search'] = 'misplaced'
+        elif answer2 == '4':
+            answers['search'] = 'manhattan'
+        elif answer2 == '5':
+            answers['search'] = 'all'
 
         return answers
 
@@ -115,38 +124,70 @@ class Main:
     # functionality from the other functions to run the program.
     def run(self):
         """Needs comments"""
-        answers = self.display_menu()
-        start = time.time()
-        array = []
-        if answers['array'] is None:
-            self.state_string = answers['state']
-            self.set_array()
-            array = self.state_array
-            # array = BreadthSearch.create_array(answers['state'])
-        elif answers['state'] is None:
-            array = answers['array']
-            self.state_array = array
-            answers['state'] = BreadthSearch.create_state_string(array)
-        print('Starting Array:')
-        self.print_array()
-        print()
-        if answers['search'] == 'breadth':
-            node = self.create_node(array, answers['state'])
-            breadth = BreadthSearch(node)
-            breadth.run()
-        elif answers['search'] == 'depth':
-            node = self.create_node(array, answers['state'])
-            depth = DepthSearch(node)
-            depth.run()
-        elif answers['search'] == 'both':
-            node1 = self.create_node(array, answers['state'])
-            node2 = self.create_node(array, answers['state'])
-            breadth = BreadthSearch(node1)
-            breadth.run()
-            depth = DepthSearch(node2)
-            depth.run()
-        end = time.time()
-        print('Search(es) completed in {} seconds.'.format(end - start))
+        answer = 'y'
+        while answer == 'y':
+            os.system('cls' if os.name == 'nt' else 'clear')
+            answers = self.display_menu()
+            start = time.time()
+            array = []
+            if answers['array'] is None:
+                self.state_string = answers['state']
+                self.set_array()
+                array = self.state_array
+                # array = BreadthSearch.create_array(answers['state'])
+            elif answers['state'] is None:
+                array = answers['array']
+                self.state_array = array
+                answers['state'] = BreadthSearch.create_state_string(array)
+            print('Starting Array:')
+            self.print_array()
+            print()
+            if answers['search'] == 'breadth':
+                node = self.create_node(array, answers['state'])
+                breadth = BreadthSearch(node)
+                breadth.run()
+            elif answers['search'] == 'depth':
+                node = self.create_node(array, answers['state'])
+                depth = DepthSearch(node)
+                depth.run()
+            elif answers['search'] == 'misplaced':
+                heuristic = MisplacedTiles.out_of_place_tiles(array)
+                # node = self.create_node(array, answers['state'], heuristic)
+                node = Node(array, answers['state'], heuristic=heuristic)
+                node.path = [node.state_string]
+                misplaced = MisplacedTiles(node)
+                misplaced.run()
+            elif answers['search'] == 'manhattan':
+                heuristic = ManhattanDistance.manhattan_distance(array)
+                node4 = Node(array, answers['state'], heuristic=heuristic)
+                node4.path = [node4.state_string]
+                manhattan = ManhattanDistance(node4)
+                manhattan.run()
+            elif answers['search'] == 'all':
+                node1 = self.create_node(array, answers['state'])
+                node1.path = [node1.state_string]
+                node2 = self.create_node(array, answers['state'])
+                heuristic = MisplacedTiles.out_of_place_tiles(array)
+                node3 = Node(array, answers['state'], heuristic=heuristic)
+                node3.path = [node3.state_string]
+                heuristic = ManhattanDistance.manhattan_distance(array)
+                node4 = Node(array, answers['state'], heuristic=heuristic)
+                node4.path = [node4.state_string]
+
+                breadth = BreadthSearch(node1)
+                breadth.run()
+                depth = DepthSearch(node2)
+                depth.run()
+                misplaced = MisplacedTiles(node3)
+                misplaced.run()
+                manhattan = ManhattanDistance(node4)
+                manhattan.run()
+            end = time.time()
+            print('Search(es) completed in {} seconds.'.format(end - start))
+            print()
+            answer = input('Would you like to run another search? (y/n)\n')
+            while answer not in ('y', 'n'):
+                answer = input('Invalid answer. Please enter \'y\' for yes and \'n\' for no.\n')
 
 
 if __name__ == '__main__':

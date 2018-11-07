@@ -1,36 +1,54 @@
-# Jody Bailey
-# Intro to AI
-# 10/31/2018
-# This class is used to perform the breadth first search. It was designed
-# to be able to function as a stand-alone class as long as it receives the
-# required data to start.
-
 from interface import Interface
 from node import Node
-from _collections import deque
 from copy import deepcopy
+import heapq
 
 
-class BreadthSearch(Interface):
-    """Breadth First Search Class"""
-    counter = 0
-    node = {}
-    queue = deque([])
-    visited = {}
-    path = {}
+class ManhattanDistance(Interface):
 
-    # Constructor
     def __init__(self, node):
-        self.counter = 0
+        self.heap = []
+        heapq.heappush(self.heap, (node.heuristic, node))
         self.node = node
         self.visited = {node.state_string: node.state_string}
-        self.queue = deque([node])
         self.path = {node: [node.state_string]}
+        self.counter = 0
 
     # Method to increment the counter
     def count_up(self):
         """needs comments"""
         self.counter += 1
+
+    @staticmethod
+    def get_goal_position(num):
+        if num == 1:
+            return 0, 0
+        elif num == 2:
+            return 0, 1
+        elif num == 3:
+            return 0, 2
+        elif num == 4:
+            return 1, 0
+        elif num == 5:
+            return 1, 1
+        elif num == 6:
+            return 1, 2
+        elif num == 7:
+            return 2, 0
+        elif num == 8:
+            return 2, 1
+        elif num == 0:
+            return 2, 2
+
+    @staticmethod
+    def manhattan_distance(array):
+        total = 0
+        for i in range(3):
+            for j in range(3):
+                position = (i, j)
+                num = ManhattanDistance.get_goal_position(array[i][j])
+                total += abs(num[0] - position[0]) + abs(num[1] - position[1])
+        return total
 
     # Method used to check if a state has already been visited
     def check_visited(self, state):
@@ -38,21 +56,26 @@ class BreadthSearch(Interface):
         return state in self.visited
 
     # Method to add the moves found to the queue
-    def add_moves_to_queue(self, moves, parent):
+    def add_moves_to_heap(self, moves, parent):
         """Needs comments"""
         for move in moves:
             if not self.check_visited(move):
                 array = self.create_array(move)
                 self.count_up()
-                node = Node(array, move, parent=parent)
+                # node = self.create_node(array, move, parent=parent)
+                heuristic = self.manhattan_distance(array)
+                node = Node(array, move, heuristic=heuristic, parent=parent)
                 try:
                     this_parent = parent
                     self.path[node] = deepcopy(this_parent.path)
                     self.path[node].append(node.state_string)
                     node.path = self.path[node]
+                    # node.heuristic = self.out_of_place_tiles(node.state_array)
                 except AttributeError:
                     '''do nothing'''
-                self.queue.append(node)
+                # self.heap.put((node.heuristic, node))
+                heapq.heappush(self.heap, (heuristic, node))
+                heapq.heapify(self.heap)
                 self.visited.update({move: move})
 
     # Method to check the current location for children and returns
@@ -95,16 +118,17 @@ class BreadthSearch(Interface):
     # the other methods and runs the search.
     def run(self):
         """Needs comments"""
-        print('Running Breadth First Search...')
-        while len(self.queue) > 0:
-            self.node = self.queue.popleft()
+        print('Running A* Manhattan Distance Search...')
+        while len(self.heap) > 0:
+            next_node = heapq.heappop(self.heap)
+            self.node = next_node[1]
             if not self.complete(self.node):
                 # if self.counter % 10000 == 0:
                 #     print('{}'.format(self.counter))
                 location = self.locate_hole(self.node.state_array)
                 moves = self.check_moves(location)
-                self.add_moves_to_queue(moves, self.node)
-                if len(self.queue) == 0:
+                self.add_moves_to_heap(moves, self.node)
+                if len(self.heap) == 0:
                     print('empty queue')
                     print(self.counter)
                     return
