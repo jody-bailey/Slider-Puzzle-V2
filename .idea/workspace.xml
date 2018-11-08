@@ -2,14 +2,10 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="21efb30d-12b2-45d4-b23b-2f1277c5410d" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/interface.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/manhattan.py" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/misplaced_tiles.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/breadth_first.py" beforeDir="false" afterPath="$PROJECT_DIR$/breadth_first.py" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/depth_first.py" beforeDir="false" afterPath="$PROJECT_DIR$/depth_first.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/main.py" beforeDir="false" afterPath="$PROJECT_DIR$/main.py" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/node.py" beforeDir="false" afterPath="$PROJECT_DIR$/node.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/interface.py" beforeDir="false" afterPath="$PROJECT_DIR$/interface.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/manhattan.py" beforeDir="false" afterPath="$PROJECT_DIR$/manhattan.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/misplaced_tiles.py" beforeDir="false" afterPath="$PROJECT_DIR$/misplaced_tiles.py" afterDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -57,12 +53,12 @@
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
-          <entry key="py" value="12788" />
+          <entry key="py" value="13228" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
-          <entry key="Python" value="12788" />
+          <entry key="Python" value="13228" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.open">
@@ -149,8 +145,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/breadth_first.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="-187">
-              <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
+            <state relative-caret-position="85">
+              <caret line="5" column="25" lean-forward="true" selection-end-line="5" selection-end-column="25" />
               <folding>
                 <element signature="e#217#248#0" expanded="true" />
               </folding>
@@ -158,28 +154,28 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="false">
+      <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/misplaced_tiles.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="291">
-              <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
+            <state relative-caret-position="51">
+              <caret line="3" column="54" selection-start-line="3" selection-start-column="54" selection-end-line="3" selection-end-column="54" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
-                <marker date="1541569120596" expanded="true" signature="517:5560" ph="..." />
-                <marker date="1541569120596" expanded="true" signature="536:537" ph="..." />
+                <marker date="1541631645463" expanded="true" signature="739:5782" ph="..." />
+                <marker date="1541631645463" expanded="true" signature="758:759" ph="..." />
               </folding>
             </state>
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/manhattan.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="287">
-              <caret line="135" selection-start-line="135" selection-end-line="135" />
+            <state relative-caret-position="85">
+              <caret line="5" column="25" lean-forward="true" selection-end-line="5" selection-end-column="25" />
               <folding>
                 <element signature="e#0#31#0" expanded="true" />
-                <marker date="1541579204444" expanded="true" signature="571:993" ph="..." />
+                <marker date="1541631645472" expanded="true" signature="905:1327" ph="..." />
               </folding>
             </state>
           </provider>
@@ -197,10 +193,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/interface.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1479">
-              <caret line="87" column="20" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="20" />
+            <state relative-caret-position="-738">
+              <caret line="9" column="78" selection-start-line="9" selection-start-column="78" selection-end-line="9" selection-end-column="78" />
               <folding>
-                <marker date="1541529099104" expanded="true" signature="41:42" ph="..." />
+                <marker date="1541631171853" expanded="true" signature="41:42" ph="..." />
               </folding>
             </state>
           </provider>
@@ -209,10 +205,11 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/depth_first.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="442">
-              <caret line="99" selection-start-line="99" selection-end-line="99" />
+            <state relative-caret-position="1132">
+              <caret line="123" column="22" selection-start-line="123" selection-start-column="22" selection-end-line="123" selection-end-column="22" />
               <folding>
                 <element signature="e#98#129#0" expanded="true" />
+                <marker date="1541631301928" expanded="true" signature="3134:3254" ph="..." />
               </folding>
             </state>
           </provider>
@@ -245,13 +242,13 @@
     <option name="CHANGED_PATHS">
       <list>
         <option value="$PROJECT_DIR$/generator.py" />
-        <option value="$PROJECT_DIR$/interface.py" />
-        <option value="$PROJECT_DIR$/depth_first.py" />
         <option value="$PROJECT_DIR$/node.py" />
-        <option value="$PROJECT_DIR$/misplaced_tiles.py" />
         <option value="$PROJECT_DIR$/breadth_first.py" />
         <option value="$PROJECT_DIR$/main.py" />
+        <option value="$PROJECT_DIR$/interface.py" />
+        <option value="$PROJECT_DIR$/depth_first.py" />
         <option value="$PROJECT_DIR$/manhattan.py" />
+        <option value="$PROJECT_DIR$/misplaced_tiles.py" />
       </list>
     </option>
   </component>
@@ -339,14 +336,15 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="-8" y="-8" width="1936" height="1056" extended-state="6" />
+    <editor active="true" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.1743941" />
       <window_info id="Structure" order="1" side_tool="true" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
       <window_info anchor="bottom" id="Find" order="1" weight="0.3286334" />
-      <window_info anchor="bottom" id="Run" order="2" weight="0.29175705" />
-      <window_info active="true" anchor="bottom" id="Debug" order="3" visible="true" weight="0.39696312" />
+      <window_info active="true" anchor="bottom" id="Run" order="2" visible="true" weight="0.29175705" />
+      <window_info anchor="bottom" id="Debug" order="3" weight="0.39696312" />
       <window_info anchor="bottom" id="Cvs" order="4" weight="0.25" />
       <window_info anchor="bottom" id="Inspection" order="5" weight="0.4" />
       <window_info anchor="bottom" id="TODO" order="6" />
@@ -387,18 +385,13 @@
     <breakpoint-manager>
       <breakpoints>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
-          <url>file://$PROJECT_DIR$/depth_first.py</url>
-          <line>113</line>
-          <option name="timeStamp" value="41" />
-        </line-breakpoint>
-        <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/misplaced_tiles.py</url>
-          <line>138</line>
+          <line>145</line>
           <option name="timeStamp" value="57" />
         </line-breakpoint>
         <line-breakpoint enabled="true" suspend="THREAD" type="python-line">
           <url>file://$PROJECT_DIR$/manhattan.py</url>
-          <line>135</line>
+          <line>146</line>
           <option name="timeStamp" value="60" />
         </line-breakpoint>
       </breakpoints>
@@ -474,26 +467,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/interface.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="1479">
-          <caret line="87" column="20" selection-start-line="87" selection-start-column="20" selection-end-line="87" selection-end-column="20" />
-          <folding>
-            <marker date="1541529099104" expanded="true" signature="41:42" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/depth_first.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="442">
-          <caret line="99" selection-start-line="99" selection-end-line="99" />
-          <folding>
-            <element signature="e#98#129#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$USER_HOME$/AppData/Local/Programs/Python/Python37-32/Lib/queue.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="177">
@@ -515,28 +488,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/breadth_first.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="-187">
-          <caret line="10" column="25" selection-start-line="10" selection-start-column="25" selection-end-line="10" selection-end-column="25" />
-          <folding>
-            <element signature="e#217#248#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
-    <entry file="file://$PROJECT_DIR$/misplaced_tiles.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="291">
-          <caret line="22" column="8" selection-start-line="22" selection-start-column="8" selection-end-line="22" selection-end-column="8" />
-          <folding>
-            <element signature="e#0#31#0" expanded="true" />
-            <marker date="1541569120596" expanded="true" signature="517:5560" ph="..." />
-            <marker date="1541569120596" expanded="true" signature="536:537" ph="..." />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/main.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="401">
@@ -547,13 +498,56 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/interface.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="-738">
+          <caret line="9" column="78" selection-start-line="9" selection-start-column="78" selection-end-line="9" selection-end-column="78" />
+          <folding>
+            <marker date="1541631171853" expanded="true" signature="41:42" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/depth_first.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="1132">
+          <caret line="123" column="22" selection-start-line="123" selection-start-column="22" selection-end-line="123" selection-end-column="22" />
+          <folding>
+            <element signature="e#98#129#0" expanded="true" />
+            <marker date="1541631301928" expanded="true" signature="3134:3254" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/breadth_first.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="85">
+          <caret line="5" column="25" lean-forward="true" selection-end-line="5" selection-end-column="25" />
+          <folding>
+            <element signature="e#217#248#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/manhattan.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="287">
-          <caret line="135" selection-start-line="135" selection-end-line="135" />
+        <state relative-caret-position="85">
+          <caret line="5" column="25" lean-forward="true" selection-end-line="5" selection-end-column="25" />
           <folding>
             <element signature="e#0#31#0" expanded="true" />
-            <marker date="1541579204444" expanded="true" signature="571:993" ph="..." />
+            <marker date="1541631645472" expanded="true" signature="905:1327" ph="..." />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/misplaced_tiles.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="51">
+          <caret line="3" column="54" selection-start-line="3" selection-start-column="54" selection-end-line="3" selection-end-column="54" />
+          <folding>
+            <element signature="e#0#31#0" expanded="true" />
+            <marker date="1541631645463" expanded="true" signature="739:5782" ph="..." />
+            <marker date="1541631645463" expanded="true" signature="758:759" ph="..." />
           </folding>
         </state>
       </provider>

@@ -1,3 +1,10 @@
+# Jody Bailey
+# Intro to AI
+# 10/31/2018
+# This class is used to perform the A* Misplaced Tiles search. It was designed
+# to be able to function as a stand-alone class as long as it receives the
+# required data to start.
+
 from interface import Interface
 from node import Node
 from copy import deepcopy

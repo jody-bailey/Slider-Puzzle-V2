@@ -7,7 +7,7 @@ class Interface:
     @staticmethod
     def create_node(state_array, state_string, depth, heuristic, parent):
         """Needs comments"""
-        node = Node(state_array, state_string, depth, heuristic, parent)
+        node = Node(state_array, state_string, depth, heuristic, parent=parent)
 
         return node
 

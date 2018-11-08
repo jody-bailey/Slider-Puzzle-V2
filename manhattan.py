@@ -1,3 +1,10 @@
+# Jody Bailey
+# Intro to AI
+# 10/31/2018
+# This class is used to perform the A* Manhattan Distance search. It was designed
+# to be able to function as a stand-alone class as long as it receives the
+# required data to start.
+
 from interface import Interface
 from node import Node
 from copy import deepcopy
@@ -6,6 +13,7 @@ import heapq
 
 class ManhattanDistance(Interface):
 
+    # Constructor
     def __init__(self, node):
         self.heap = []
         heapq.heappush(self.heap, (node.heuristic, node))
@@ -19,6 +27,8 @@ class ManhattanDistance(Interface):
         """needs comments"""
         self.counter += 1
 
+    # This method is used to test if the numbers are in the right
+    # place on the board
     @staticmethod
     def get_goal_position(num):
         if num == 1:
@@ -40,6 +50,7 @@ class ManhattanDistance(Interface):
         elif num == 0:
             return 2, 2
 
+    # This method is used to find the Manhattan Distance for the heuristic
     @staticmethod
     def manhattan_distance(array):
         total = 0

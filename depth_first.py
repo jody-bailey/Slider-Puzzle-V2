@@ -84,6 +84,13 @@ class DepthSearch(Interface):
 
         return possible_moves
 
+    def get_depth(self, node):
+        total = 0
+        while node.parent is not None:
+            node = node.parent
+            total += 1
+        return total
+
     # Main method of the class. It brings together all of the functionality
     # from the other methods to perfom the search.
     def run(self):
@@ -112,6 +119,8 @@ class DepthSearch(Interface):
                     return
             else:
                 self.print_array(self.node.state_array)
+                print()
+                print('Depth of goal node: {}'.format(self.get_depth(self.node)))
                 print()
 
                 return
