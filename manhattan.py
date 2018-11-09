@@ -85,7 +85,7 @@ class ManhattanDistance(Interface):
                 # node = self.create_node(array, move, parent=parent)
                 heuristic = self.manhattan_distance(array)
                 depth = self.get_depth(parent) + 1
-                heuristic = heuristic * depth
+                heuristic = heuristic + depth
                 node = Node(array, move, heuristic=heuristic, parent=parent)
                 try:
                     this_parent = parent
@@ -135,6 +135,22 @@ class ManhattanDistance(Interface):
 
         return possible_moves
 
+    def print_final_path(self, node):
+        my_list = self.path[node]
+        my_array_list = []
+
+        print('Final Path of Search:')
+
+        for elem in my_list:
+            my_array_list.append(self.create_array(elem))
+
+        # print('\n'.join(str(elem) for elem2 in my_array_list for row in elem2 for elem in row), end=' -> ')
+
+        for elem2 in my_array_list:
+            for row in elem2:
+                print(' '.join(str(elem) for elem in row))
+            print()
+
     # Main method of this class. It brings together all of the functionality from
     # the other methods and runs the search.
     def run(self):
@@ -157,7 +173,7 @@ class ManhattanDistance(Interface):
             else:
                 self.print_array(self.node.state_array)
                 print()
-                print(' -> '.join(str(elem) for elem in self.path[self.node]))
+                self.print_final_path(self.node)
                 print()
                 print(len(self.path[self.node]))
 
