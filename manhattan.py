@@ -17,9 +17,8 @@ class ManhattanDistance(Interface):
     # Constructor
     def __init__(self, node):
         self.heap = []
-        self.heap.append((node.heuristic, node))
-        # heapq.heappush(self.heap, (node.heuristic, 0, node))
-        # heapq.heapify(self.heap)
+        heapq.heappush(self.heap, (node.heuristic, 0, node))
+        heapq.heapify(self.heap)
         self.node = node
         self.visited = {node.state_string: node.state_string}
         self.path = {node: [node.state_string]}
@@ -69,6 +68,13 @@ class ManhattanDistance(Interface):
         """Needs comments"""
         return state in self.visited
 
+    def get_depth(self, node):
+        total = 0
+        while node.parent is not None:
+            node = node.parent
+            total += 1
+        return total
+
     # Method to add the moves found to the queue
     def add_moves_to_heap(self, moves, parent):
         """Needs comments"""
@@ -77,7 +83,9 @@ class ManhattanDistance(Interface):
                 array = self.create_array(move)
                 self.count_up()
                 # node = self.create_node(array, move, parent=parent)
-                heuristic = self.manhattan_distance(array) * self.counter
+                heuristic = self.manhattan_distance(array)
+                depth = self.get_depth(parent) + 1
+                heuristic = heuristic * depth
                 node = Node(array, move, heuristic=heuristic, parent=parent)
                 try:
                     this_parent = parent
@@ -88,12 +96,7 @@ class ManhattanDistance(Interface):
                 except AttributeError:
                     '''do nothing'''
                 # self.heap.put((node.heuristic, node))
-                self.heap.sort()
-                self.heap.append((heuristic, node))
-                self.heap.sort(key=itemgetter(0))
-                # heapq.heapify(self.heap)
-                # heapq.heappush(self.heap, (heuristic, self.counter, node))
-                # heapq.nsmallest(len(self.heap), self.heap)
+                heapq.heappush(self.heap, (heuristic, self.counter, node))
                 self.visited.update({move: move})
 
     # Method to check the current location for children and returns
@@ -138,11 +141,9 @@ class ManhattanDistance(Interface):
         """Needs comments"""
         print('Running A* Manhattan Distance Search...')
         while self.heap:
-            # next_node = heapq.heappop(self.heap)
-            next_node = self.heap.pop(0)
-            self.heap.sort(key=itemgetter(0))
+            next_node = heapq.heappop(self.heap)
             # heapq.heapify(self.heap)
-            self.node = next_node[1]
+            self.node = next_node[2]
             if not self.complete(self.node):
                 # if self.counter % 10000 == 0:
                 #     print('{}'.format(self.counter))
