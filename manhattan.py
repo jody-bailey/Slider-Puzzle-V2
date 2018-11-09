@@ -9,6 +9,7 @@ from interface import Interface
 from node import Node
 from copy import deepcopy
 import heapq
+from operator import itemgetter
 
 
 class ManhattanDistance(Interface):
@@ -16,7 +17,9 @@ class ManhattanDistance(Interface):
     # Constructor
     def __init__(self, node):
         self.heap = []
-        heapq.heappush(self.heap, (node.heuristic, node))
+        self.heap.append((node.heuristic, node))
+        # heapq.heappush(self.heap, (node.heuristic, 0, node))
+        # heapq.heapify(self.heap)
         self.node = node
         self.visited = {node.state_string: node.state_string}
         self.path = {node: [node.state_string]}
@@ -74,7 +77,7 @@ class ManhattanDistance(Interface):
                 array = self.create_array(move)
                 self.count_up()
                 # node = self.create_node(array, move, parent=parent)
-                heuristic = self.manhattan_distance(array)
+                heuristic = self.manhattan_distance(array) * self.counter
                 node = Node(array, move, heuristic=heuristic, parent=parent)
                 try:
                     this_parent = parent
@@ -85,8 +88,12 @@ class ManhattanDistance(Interface):
                 except AttributeError:
                     '''do nothing'''
                 # self.heap.put((node.heuristic, node))
-                heapq.heappush(self.heap, (heuristic, node))
-                heapq.heapify(self.heap)
+                self.heap.sort()
+                self.heap.append((heuristic, node))
+                self.heap.sort(key=itemgetter(0))
+                # heapq.heapify(self.heap)
+                # heapq.heappush(self.heap, (heuristic, self.counter, node))
+                # heapq.nsmallest(len(self.heap), self.heap)
                 self.visited.update({move: move})
 
     # Method to check the current location for children and returns
@@ -130,8 +137,11 @@ class ManhattanDistance(Interface):
     def run(self):
         """Needs comments"""
         print('Running A* Manhattan Distance Search...')
-        while len(self.heap) > 0:
-            next_node = heapq.heappop(self.heap)
+        while self.heap:
+            # next_node = heapq.heappop(self.heap)
+            next_node = self.heap.pop(0)
+            self.heap.sort(key=itemgetter(0))
+            # heapq.heapify(self.heap)
             self.node = next_node[1]
             if not self.complete(self.node):
                 # if self.counter % 10000 == 0:
@@ -139,7 +149,7 @@ class ManhattanDistance(Interface):
                 location = self.locate_hole(self.node.state_array)
                 moves = self.check_moves(location)
                 self.add_moves_to_heap(moves, self.node)
-                if len(self.heap) == 0:
+                if not self.heap:
                     print('empty queue')
                     print(self.counter)
                     return

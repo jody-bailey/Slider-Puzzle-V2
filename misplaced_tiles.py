@@ -5,17 +5,17 @@
 # to be able to function as a stand-alone class as long as it receives the
 # required data to start.
 
+import heapq
 from interface import Interface
 from node import Node
 from copy import deepcopy
-import heapq
 
 
 class MisplacedTiles(Interface):
 
     def __init__(self, node):
         self.heap = []
-        heapq.heappush(self.heap, (node.heuristic, node))
+        heapq.heappush(self.heap, (node.heuristic, 0, node))
         self.node = node
         self.visited = {node.state_string: node.state_string}
         self.path = {node: [node.state_string]}
@@ -66,6 +66,13 @@ class MisplacedTiles(Interface):
         """Needs comments"""
         return state in self.visited
 
+    def get_depth(self, node):
+        total = 0
+        while node.parent is not None:
+            node = node.parent
+            total += 1
+        return total
+
     # Method to add the moves found to the queue
     def add_moves_to_heap(self, moves, parent):
         """Needs comments"""
@@ -75,6 +82,8 @@ class MisplacedTiles(Interface):
                 self.count_up()
                 # node = self.create_node(array, move, parent=parent)
                 heuristic = self.out_of_place_tiles(array)
+                depth = self.get_depth(self.node)
+                heuristic = heuristic * depth - 1
                 node = Node(array, move, heuristic=heuristic, parent=parent)
                 try:
                     this_parent = parent
@@ -85,7 +94,8 @@ class MisplacedTiles(Interface):
                 except AttributeError:
                     '''do nothing'''
                 # self.heap.put((node.heuristic, node))
-                heapq.heappush(self.heap, (heuristic, node))
+                heapq.heappush(self.heap, (heuristic, self.counter, node))
+                heapq.heapify(self.heap)
                 self.visited.update({move: move})
 
     # Method to check the current location for children and returns
@@ -131,7 +141,7 @@ class MisplacedTiles(Interface):
         print('Running A* Misplaced Tiles Search...')
         while len(self.heap) > 0:
             next_node = heapq.heappop(self.heap)
-            self.node = next_node[1]
+            self.node = next_node[2]
             if not self.complete(self.node):
                 # if self.counter % 10000 == 0:
                 #     print('{}'.format(self.counter))
