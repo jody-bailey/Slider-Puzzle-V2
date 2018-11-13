@@ -1,21 +1,23 @@
 # Jody Bailey
 # Intro to AI
 # 10/31/2018
-# This class is used to perform the A* Misplaced Tiles search. It was designed
+# This class is used to perform the A* Manhattan Distance search. It was designed
 # to be able to function as a stand-alone class as long as it receives the
 # required data to start.
 
-import heapq
 from interface import Interface
 from node import Node
 from copy import deepcopy
+import heapq
 
 
 class MisplacedTiles(Interface):
 
+    # Constructor
     def __init__(self, node):
         self.heap = []
         heapq.heappush(self.heap, (node.heuristic, 0, node))
+        heapq.heapify(self.heap)
         self.node = node
         self.visited = {node.state_string: node.state_string}
         self.path = {node: [node.state_string]}
@@ -25,6 +27,29 @@ class MisplacedTiles(Interface):
     def count_up(self):
         """needs comments"""
         self.counter += 1
+
+    # This method is used to test if the numbers are in the right
+    # place on the board
+    @staticmethod
+    def get_goal_position(num):
+        if num == 1:
+            return 0, 0
+        elif num == 2:
+            return 0, 1
+        elif num == 3:
+            return 0, 2
+        elif num == 4:
+            return 1, 0
+        elif num == 5:
+            return 1, 1
+        elif num == 6:
+            return 1, 2
+        elif num == 7:
+            return 2, 0
+        elif num == 8:
+            return 2, 1
+        elif num == 0:
+            return 2, 2
 
     @staticmethod
     def out_of_place_tiles(array):
@@ -82,7 +107,7 @@ class MisplacedTiles(Interface):
                 self.count_up()
                 # node = self.create_node(array, move, parent=parent)
                 heuristic = self.out_of_place_tiles(array)
-                depth = self.get_depth(self.node)
+                depth = self.get_depth(parent) + 1
                 heuristic = heuristic + depth
                 node = Node(array, move, heuristic=heuristic, parent=parent)
                 try:
@@ -95,7 +120,6 @@ class MisplacedTiles(Interface):
                     '''do nothing'''
                 # self.heap.put((node.heuristic, node))
                 heapq.heappush(self.heap, (heuristic, self.counter, node))
-                heapq.heapify(self.heap)
                 self.visited.update({move: move})
 
     # Method to check the current location for children and returns
@@ -154,9 +178,10 @@ class MisplacedTiles(Interface):
     # the other methods and runs the search.
     def run(self):
         """Needs comments"""
-        print('Running A* Misplaced Tiles Search...')
-        while len(self.heap) > 0:
+        print('Running A* Manhattan Distance Search...')
+        while self.heap:
             next_node = heapq.heappop(self.heap)
+            # heapq.heapify(self.heap)
             self.node = next_node[2]
             if not self.complete(self.node):
                 # if self.counter % 10000 == 0:
@@ -164,7 +189,7 @@ class MisplacedTiles(Interface):
                 location = self.locate_hole(self.node.state_array)
                 moves = self.check_moves(location)
                 self.add_moves_to_heap(moves, self.node)
-                if len(self.heap) == 0:
+                if not self.heap:
                     print('empty queue')
                     print(self.counter)
                     return
@@ -172,8 +197,8 @@ class MisplacedTiles(Interface):
                 self.print_array(self.node.state_array)
                 print()
                 self.print_final_path(self.node)
-                # print(' -> '.join(self.print_array(self.create_array(elem)) for elem in self.path[self.node]))
                 print()
                 print(len(self.path[self.node]))
+                print(self.counter)
 
                 return

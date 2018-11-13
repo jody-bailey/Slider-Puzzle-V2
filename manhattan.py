@@ -9,7 +9,6 @@ from interface import Interface
 from node import Node
 from copy import deepcopy
 import heapq
-from operator import itemgetter
 
 
 class ManhattanDistance(Interface):
@@ -176,5 +175,6 @@ class ManhattanDistance(Interface):
                 self.print_final_path(self.node)
                 print()
                 print(len(self.path[self.node]))
+                print(self.counter)
 
                 return

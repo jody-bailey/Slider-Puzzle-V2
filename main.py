@@ -24,6 +24,8 @@ class Main:
     state_array = []
     state_string = ''
 
+    STARTING_POSITION = ''
+
     # Constructor
     def __init__(self, state_string=None):
         self.state_array = [0] * 3
@@ -77,10 +79,11 @@ class Main:
         print('Please select from the following menu options:\n')
         print('[1] Enter starting positions')
         print('[2] Randomly generate starting positions')
+        print('[3] Use previous starting position')
         answer = input()
         print()
-        while answer != '1' and answer != '2':
-            answer = input('Please enter either \'1\' or \'2\'\n')
+        while answer != '1' and answer != '2' and answer != '3':
+            answer = input('Please enter either \'1\' or \'2\' or \'3\'.\n')
 
         if answer == '1':
             state = input('Please enter the starting positions.\n'
@@ -88,6 +91,7 @@ class Main:
             while not self.check_state(state):
                 state = input('Not a valid starting state. Try again!!\n')
 
+            self.STARTING_POSITION = state
             answers['state'] = state
             answers['array'] = None
         elif answer == '2':
@@ -97,6 +101,13 @@ class Main:
 
             answers['array'] = generator.get_array()
             answers['state'] = None
+        elif answer == '3':
+            if self.STARTING_POSITION == '':
+                print('You must run a previous test first!\n')
+                return -1
+            else:
+                answers['state'] = self.STARTING_POSITION
+                answers['array'] = None
 
         answer2 = input('Please select which search you would like to perform: \n'
                         '[1] Breadth First Search\n'
@@ -128,6 +139,8 @@ class Main:
         while answer == 'y':
             os.system('cls' if os.name == 'nt' else 'clear')
             answers = self.display_menu()
+            while answers == -1:
+                answers = self.display_menu()
             start = time.time()
             array = []
             if answers['array'] is None:
