@@ -22,11 +22,25 @@ class ManhattanDistance(Interface):
         self.visited = {node.state_string: node.state_string}
         self.path = {node: [node.state_string]}
         self.counter = 0
+        self.starting_state = node.state_string
+        self.solution_found = False
 
     # Method to increment the counter
     def count_up(self):
         """needs comments"""
         self.counter += 1
+
+    def get_starting_state(self):
+        return self.starting_state
+
+    def get_solution_found(self):
+        return self.solution_found
+
+    def get_path(self):
+        return self.node.path
+
+    def get_node_count(self):
+        return len(self.visited)
 
     # This method is used to test if the numbers are in the right
     # place on the board
@@ -73,6 +87,9 @@ class ManhattanDistance(Interface):
             node = node.parent
             total += 1
         return total
+
+    def get_final_depth(self):
+        return self.get_depth(self.node)
 
     # Method to add the moves found to the queue
     def add_moves_to_heap(self, moves, parent):
@@ -170,6 +187,7 @@ class ManhattanDistance(Interface):
                     print(self.counter)
                     return
             else:
+                self.solution_found = True
                 self.print_array(self.node.state_array)
                 print()
                 self.print_final_path(self.node)

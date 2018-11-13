@@ -5,10 +5,11 @@
 # then use for the different searches.
 
 from breadth_first import BreadthSearch
+from interface import Interface
 import random
 
 
-class Generator:
+class Generator(Interface):
     array = []
     zero = []
     one = []

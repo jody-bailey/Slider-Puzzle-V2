@@ -178,7 +178,7 @@ class MisplacedTiles(Interface):
     # the other methods and runs the search.
     def run(self):
         """Needs comments"""
-        print('Running A* Manhattan Distance Search...')
+        print('Running A* Misplaced Tiles Search...')
         while self.heap:
             next_node = heapq.heappop(self.heap)
             # heapq.heapify(self.heap)
