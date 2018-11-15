@@ -6,7 +6,6 @@ class Interface:
     # Method used to create a node from the Node class.
     @staticmethod
     def create_node(state_array, state_string, depth, heuristic, parent):
-        """Needs comments"""
         node = Node(state_array, state_string, depth, heuristic, parent=parent)
 
         return node
@@ -14,7 +13,6 @@ class Interface:
     # Method used to create the array when given the state_string
     @staticmethod
     def create_array(state_string):
-        """Needs comments"""
         array = [0] * 3
         for i in range(3):
             array[i] = [0] * 3
@@ -39,20 +37,17 @@ class Interface:
     # Method to determine if the node passed in is the goal state.
     @staticmethod
     def complete(node):
-        """Needs comments"""
         # path = ''.join(str(elem) for row in node for elem in row)
         return node.state_string == '123456780'
 
     # Method used to get the state string from an array
     @staticmethod
     def get_state_string(node):
-        """Needs comments"""
         return ''.join(str(elem) for row in node for elem in row)
 
     # Method to find the position of 0.
     @staticmethod
     def locate_hole(node):
-        """Needs comments"""
         array = node
         for i in range(3):
             for j in range(3):
@@ -62,7 +57,6 @@ class Interface:
     # Method to check if the new location would be out of bounds.
     @staticmethod
     def check_bounds(location):
-        """Needs comments"""
         if location[0] > 2:
             return False
         elif location[0] < 0:
@@ -77,7 +71,6 @@ class Interface:
     # Method to swap the 0 and the new location.
     @staticmethod
     def swap_locations(node, location, new_loc):
-        """Needs comments"""
         test_node = node
         test_node[location[0]][location[1]], test_node[new_loc[0]][new_loc[1]] = \
             test_node[new_loc[0]][new_loc[1]], test_node[location[0]][location[1]]
@@ -86,6 +79,5 @@ class Interface:
     # Method to print an array
     @staticmethod
     def print_array(array):
-        """Needs comments"""
         for row in array:
             print(' '.join(str(elem) for elem in row))

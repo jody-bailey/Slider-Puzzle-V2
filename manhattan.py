@@ -21,24 +21,30 @@ class ManhattanDistance(Interface):
         self.node = node
         self.visited = {node.state_string: node.state_string}
         self.path = {node: [node.state_string]}
-        self.counter = 0
+        self.counter = 1
         self.starting_state = node.state_string
         self.solution_found = False
 
     # Method to increment the counter
     def count_up(self):
-        """needs comments"""
         self.counter += 1
 
+    # Returns the starting state
     def get_starting_state(self):
         return self.starting_state
 
+    # Returns whether a solution was found or not
     def get_solution_found(self):
-        return self.solution_found
+        if self.solution_found:
+            return 'Yes'
+        else:
+            return 'No'
 
+    # Returns the path of the current node
     def get_path(self):
         return self.node.path
 
+    # Returns the amount of nodes that have been explored
     def get_node_count(self):
         return len(self.visited)
 
@@ -78,7 +84,6 @@ class ManhattanDistance(Interface):
 
     # Method used to check if a state has already been visited
     def check_visited(self, state):
-        """Needs comments"""
         return state in self.visited
 
     def get_depth(self, node):
@@ -93,7 +98,6 @@ class ManhattanDistance(Interface):
 
     # Method to add the moves found to the queue
     def add_moves_to_heap(self, moves, parent):
-        """Needs comments"""
         for move in moves:
             if not self.check_visited(move):
                 array = self.create_array(move)
@@ -118,7 +122,6 @@ class ManhattanDistance(Interface):
     # Method to check the current location for children and returns
     # those children to the run() method.
     def check_moves(self, location):
-        """Needs comments"""
         possible_moves = []
 
         # check left
@@ -151,6 +154,7 @@ class ManhattanDistance(Interface):
 
         return possible_moves
 
+    # Method to ger the final path of the goal state.
     def print_final_path(self, node):
         my_list = self.path[node]
         my_array_list = []
@@ -160,8 +164,6 @@ class ManhattanDistance(Interface):
         for elem in my_list:
             my_array_list.append(self.create_array(elem))
 
-        # print('\n'.join(str(elem) for elem2 in my_array_list for row in elem2 for elem in row), end=' -> ')
-
         for elem2 in my_array_list:
             for row in elem2:
                 print(' '.join(str(elem) for elem in row))
@@ -170,11 +172,9 @@ class ManhattanDistance(Interface):
     # Main method of this class. It brings together all of the functionality from
     # the other methods and runs the search.
     def run(self):
-        """Needs comments"""
         print('Running A* Manhattan Distance Search...')
         while self.heap:
             next_node = heapq.heappop(self.heap)
-            # heapq.heapify(self.heap)
             self.node = next_node[2]
             if not self.complete(self.node):
                 # if self.counter % 10000 == 0:
@@ -188,11 +188,11 @@ class ManhattanDistance(Interface):
                     return
             else:
                 self.solution_found = True
-                self.print_array(self.node.state_array)
                 print()
                 self.print_final_path(self.node)
                 print()
-                print(len(self.path[self.node]))
-                print(self.counter)
+                print('Depth of goal state: {}'.format(len(self.path[self.node])))
+                print('Total nodes generated: {}'.format(self.counter))
+                print()
 
                 return

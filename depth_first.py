@@ -16,15 +16,32 @@ class DepthSearch(Interface):
 
     # Constructor
     def __init__(self, node):
-        self.counter = 0
+        self.counter = 1
         self.node = node
         self.visited = {node.state_string: node.state_string}
         self.stack = deque([node])
         self.path = {node: deque([node.state_string])}
+        self.starting_state = node.state_string
+        self.solution_found = False
 
     # Method to increment the counter
     def count_up(self):
         self.counter += 1
+
+    def get_starting_state(self):
+        return self.starting_state
+
+    def get_solution_found(self):
+        if self.solution_found:
+            return 'Yes'
+        else:
+            return 'No'
+
+    def get_path(self):
+        return self.node.path
+
+    def get_node_count(self):
+        return len(self.visited)
 
     # Method to check if the node in question has been visited.
     def check_visited(self, state):
@@ -91,6 +108,9 @@ class DepthSearch(Interface):
             total += 1
         return total
 
+    def get_final_depth(self):
+        return self.get_depth(self.node)
+
     # Main method of the class. It brings together all of the functionality
     # from the other methods to perfom the search.
     def run(self):
@@ -118,9 +138,12 @@ class DepthSearch(Interface):
                     print(self.counter)
                     return
             else:
+                self.solution_found = True
+                print('Final state:')
                 self.print_array(self.node.state_array)
                 print()
-                print('Depth of goal node: {}'.format(self.get_depth(self.node)))
+                print('Depth of goal state: {}'.format(self.get_depth(self.node)))
+                print('Total nodes generated: {}'.format(self.counter))
                 print()
 
                 return

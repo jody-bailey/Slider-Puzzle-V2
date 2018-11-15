@@ -21,25 +21,39 @@ class BreadthSearch(Interface):
 
     # Constructor
     def __init__(self, node):
-        self.counter = 0
+        self.counter = 1
         self.node = node
         self.visited = {node.state_string: node.state_string}
         self.queue = deque([node])
         self.path = {node: [node.state_string]}
+        self.starting_state = node.state_string
+        self.solution_found = False
 
     # Method to increment the counter
     def count_up(self):
-        """needs comments"""
         self.counter += 1
+
+    def get_starting_state(self):
+        return self.starting_state
+
+    def get_solution_found(self):
+        if self.solution_found:
+            return 'Yes'
+        else:
+            return 'No'
+
+    def get_path(self):
+        return self.node.path
+
+    def get_node_count(self):
+        return len(self.visited)
 
     # Method used to check if a state has already been visited
     def check_visited(self, state):
-        """Needs comments"""
         return state in self.visited
 
     # Method to add the moves found to the queue
     def add_moves_to_queue(self, moves, parent):
-        """Needs comments"""
         for move in moves:
             if not self.check_visited(move):
                 array = self.create_array(move)
@@ -58,7 +72,6 @@ class BreadthSearch(Interface):
     # Method to check the current location for children and returns
     # those children to the run() method.
     def check_moves(self, location):
-        """Needs comments"""
         possible_moves = []
 
         # check left
@@ -107,10 +120,19 @@ class BreadthSearch(Interface):
                 print(' '.join(str(elem) for elem in row))
             print()
 
+    def get_depth(self, node):
+        total = 0
+        while node.parent is not None:
+            node = node.parent
+            total += 1
+        return total
+
+    def get_final_depth(self):
+        return self.get_depth(self.node)
+
     # Main method of this class. It brings together all of the functionality from
     # the other methods and runs the search.
     def run(self):
-        """Needs comments"""
         print('Running Breadth First Search...')
         while len(self.queue) > 0:
             self.node = self.queue.popleft()
@@ -125,10 +147,12 @@ class BreadthSearch(Interface):
                     print(self.counter)
                     return
             else:
-                self.print_array(self.node.state_array)
+                self.solution_found = True
                 print()
                 self.print_final_path(self.node)
                 print()
-                print(len(self.path[self.node]))
+                print('Depth of goal state: {}'.format(len(self.path[self.node])))
+                print('Total nodes generated: {}'.format(self.counter))
+                print()
 
                 return

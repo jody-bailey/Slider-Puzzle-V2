@@ -15,6 +15,7 @@ from depth_first import DepthSearch
 from misplaced_tiles import MisplacedTiles
 from manhattan import ManhattanDistance
 from generator import Generator
+from test_generator import TestGenerator
 from node import Node
 import csv
 
@@ -46,7 +47,6 @@ class Main:
                 index += 1
 
     def create_array(self, state_string):
-        """Needs comments"""
         array = [0] * 3
         for i in range(3):
             array[i] = [0] * 3
@@ -131,12 +131,13 @@ class Main:
             self.is_test = True
             all_states = []
             for _ in range(10):
-                generator = Generator()
+                generator = TestGenerator()
                 generator.set_array()
                 generator.randomize()
                 state_string = generator.get_state_string(generator.get_array())
                 all_states.append(state_string)
             self.test_states = all_states
+            return
 
         if answer == '4':
             answer2 = input('Please select which search you would like to perform: \n'
@@ -145,7 +146,7 @@ class Main:
                             '[3] A* Misplaced Tiles\n'
                             '[4] A* Manhatten Distance\n')
             while answer2 != '1' and answer2 != '2' and answer2 != '3' and answer2 != '4':
-                answer2 = input('Invalid answer. Please try again!')
+                answer2 = input('Invalid answer. Please try again!\n')
         else:
             answer2 = input('Please select which search you would like to perform: \n'
                             '[1] Breadth First Search\n'
@@ -154,7 +155,7 @@ class Main:
                             '[4] A* Manhatten Distance\n'
                             '[5] All\n')
             while answer2 != '1' and answer2 != '2' and answer2 != '3' and answer2 != '4' and answer2 != '5':
-                answer2 = input('Invalid answer. Please try again!')
+                answer2 = input('Invalid answer. Please try again!\n')
 
         print()
         if answer2 == '1':
@@ -170,74 +171,158 @@ class Main:
 
         return answers
 
+    # This method is used to create the CSV file after running a test.
+    # It takes in a nested map to get all the information from the searches
+    # completed and writes the data to it's respective location in the file.
     def create_csv(self, test_map):
-        with open('SliderPuzzle.csv', 'a', newline='') as file:
+        with open('SliderPuzzle.csv', 'w', newline='') as file:
             the_writer = csv.writer(file)
 
-            the_writer.writerow([test_map['search'][0]])
-            the_writer.writerow(['Starting State', 'Solution?', 'Depth', 'Path', 'Node Count', 'Time Elapsed'])
-            for i in range(10):
-                the_writer.writerow(
-                    [test_map['start'][i], test_map['solution'][i], test_map['depth'][i], test_map['path'][i],
-                     test_map['node_count'][i], test_map['times'][i]])
-            the_writer.writerow('\n')
+            for i in range(4):
+                for j in range(10):
+                    if i == 0:
+                        if j == 0:
+                            the_writer.writerow(['Breadth First Search'])
+                            the_writer.writerow(
+                                ['Starting State', 'Solution?', 'Depth', 'Path', 'Node Count', 'Time Elapsed'])
+                        the_writer.writerow([test_map['breadth']['start'][j], test_map['breadth']['solution'][j],
+                                             test_map['breadth']['depth'][j],
+                                             test_map['breadth']['path'][j], test_map['breadth']['node_count'][j],
+                                             test_map['breadth']['times'][j]])
+                        if j == 9:
+                            the_writer.writerow('\n')
+                    elif i == 1:
+                        if j == 0:
+                            the_writer.writerow(['Depth First Search'])
+                            the_writer.writerow(
+                                ['Starting State', 'Solution?', 'Depth', 'Path', 'Node Count', 'Time Elapsed'])
+                        the_writer.writerow([test_map['depth']['start'][j], test_map['depth']['solution'][j],
+                                             test_map['depth']['depth'][j],
+                                             test_map['depth']['path'][j], test_map['depth']['node_count'][j],
+                                             test_map['depth']['times'][j]])
+                        if j == 9:
+                            the_writer.writerow('\n')
+                    elif i == 2:
+                        if j == 0:
+                            the_writer.writerow(['A* Misplaced Tiles'])
+                            the_writer.writerow(
+                                ['Starting State', 'Solution?', 'Depth', 'Path', 'Node Count', 'Time Elapsed'])
+                        the_writer.writerow([test_map['misplaced']['start'][j], test_map['misplaced']['solution'][j],
+                                             test_map['misplaced']['depth'][j],
+                                             test_map['misplaced']['path'][j], test_map['misplaced']['node_count'][j],
+                                             test_map['misplaced']['times'][j]])
+                        if j == 9:
+                            the_writer.writerow('\n')
+                    elif i == 3:
+                        if j == 0:
+                            the_writer.writerow(['A* Manhattan Distance'])
+                            the_writer.writerow(
+                                ['Starting State', 'Solution?', 'Depth', 'Path', 'Node Count', 'Time Elapsed'])
+                        the_writer.writerow([test_map['manhattan']['start'][j], test_map['manhattan']['solution'][j],
+                                             test_map['manhattan']['depth'][j],
+                                             test_map['manhattan']['path'][j], test_map['manhattan']['node_count'][j],
+                                             test_map['manhattan']['times'][j]])
+
+    # This method is used when the user selects to run a test.
+    # It is used instead of the regular run method.
+    # It performs a loop 10 times, each with a different starting state
+    # and runs each search on each starting state and records the results.
+    # The data gathered in this method is passed to the create_csv() method.
+    def run_test(self):
+        test_map = {'breadth': {'search': [], 'start': [], 'solution': [], 'depth': [], 'path': [], 'node_count': [],
+                                'times': []},
+                    'depth': {'search': [], 'start': [], 'solution': [], 'depth': [], 'path': [], 'node_count': [],
+                              'times': []},
+                    'misplaced': {'search': [], 'start': [], 'solution': [], 'depth': [], 'path': [], 'node_count': [],
+                                  'times': []},
+                    'manhattan': {'search': [], 'start': [], 'solution': [], 'depth': [], 'path': [], 'node_count': [],
+                                  'times': []}}
+
+        for i in range(10):
+            array = self.create_array(self.test_states[i])
+            state = self.test_states[i]
+            start = time.time()
+
+            node = self.create_node(array, state)
+            breadth = BreadthSearch(node)
+            breadth.run()
+            test_map['breadth']['solution'].append(breadth.get_solution_found())
+            test_map['breadth']['depth'].append(breadth.get_final_depth())
+            test_map['breadth']['path'].append(breadth.get_path())
+            test_map['breadth']['node_count'].append(breadth.get_node_count())
+            test_map['breadth']['search'].append('Breadth First')
+            stop = time.time()
+            time_elapsed = stop - start
+            test_map['breadth']['times'].append(time_elapsed)
+            test_map['breadth']['start'].append(state)
+
+            start = time.time()
+            node2 = self.create_node(array, state)
+            depth = DepthSearch(node2)
+            depth.run()
+            test_map['depth']['solution'].append(depth.get_solution_found())
+            test_map['depth']['depth'].append(depth.get_final_depth())
+            test_map['depth']['path'].append(depth.get_path())
+            test_map['depth']['node_count'].append(depth.get_node_count())
+            test_map['depth']['search'].append('Depth First')
+            stop = time.time()
+            time_elapsed = stop - start
+            test_map['depth']['times'].append(time_elapsed)
+            test_map['depth']['start'].append(state)
+
+            start = time.time()
+            heuristic = MisplacedTiles.out_of_place_tiles(array)
+            node3 = Node(array, state, heuristic=heuristic)
+            node3.path = [node3.state_string]
+            misplaced = MisplacedTiles(node3)
+            misplaced.run()
+            test_map['misplaced']['solution'].append(misplaced.get_solution_found())
+            test_map['misplaced']['depth'].append(misplaced.get_final_depth())
+            test_map['misplaced']['path'].append(misplaced.get_path())
+            test_map['misplaced']['node_count'].append(misplaced.get_node_count())
+            test_map['misplaced']['search'].append('Misplaced Tiles')
+            stop = time.time()
+            time_elapsed = stop - start
+            test_map['misplaced']['times'].append(time_elapsed)
+            test_map['misplaced']['start'].append(state)
+
+            heuristic = ManhattanDistance.manhattan_distance(array)
+            node4 = Node(array, state, heuristic=heuristic)
+            node4.path = [node4.state_string]
+            manhattan = ManhattanDistance(node4)
+            manhattan.run()
+            test_map['manhattan']['solution'].append(manhattan.get_solution_found())
+            test_map['manhattan']['depth'].append(manhattan.get_final_depth())
+            test_map['manhattan']['path'].append(manhattan.get_path())
+            test_map['manhattan']['node_count'].append(manhattan.get_node_count())
+            test_map['manhattan']['search'].append('Manhattan Distance')
+
+            stop = time.time()
+            time_elapsed = stop - start
+            test_map['manhattan']['times'].append(time_elapsed)
+            test_map['manhattan']['start'].append(state)
+
+        self.create_csv(test_map)
+        self.is_test = False
 
     # The main method of this class. It brings together all of the
     # functionality from the other functions to run the program.
     def run(self):
-        """Needs comments"""
         answer = 'y'
         while answer == 'y':
             os.system('cls' if os.name == 'nt' else 'clear')
             answers = self.display_menu()
-            while answers == -1:
-                answers = self.display_menu()
+
             if self.is_test:
-                test_map = {'search': [], 'start': [], 'solution': [], 'depth': [], 'path': [], 'node_count': [],
-                            'times': []}
-                for i in range(10):
-                    array = self.create_array(self.test_states[i])
-                    state = self.test_states[i]
-                    start = time.time()
-
-                    if answers['search'] == 'breadth':
-                        node = self.create_node(array, state)
-                        breadth = BreadthSearch(node)
-                        breadth.run()
-                    elif answers['search'] == 'depth':
-                        node = self.create_node(array, state)
-                        depth = DepthSearch(node)
-                        depth.run()
-                    elif answers['search'] == 'misplaced':
-                        heuristic = MisplacedTiles.out_of_place_tiles(array)
-                        node = Node(array, state, heuristic=heuristic)
-                        node.path = [node.state_string]
-                        misplaced = MisplacedTiles(node)
-                        misplaced.run()
-                    elif answers['search'] == 'manhattan':
-                        heuristic = ManhattanDistance.manhattan_distance(array)
-                        node4 = Node(array, state, heuristic=heuristic)
-                        node4.path = [node4.state_string]
-                        manhattan = ManhattanDistance(node4)
-                        manhattan.run()
-                        test_map['solution'].append(manhattan.solution_found)
-                        test_map['depth'].append(manhattan.get_final_depth())
-                        test_map['path'].append(manhattan.get_path())
-                        test_map['node_count'].append(manhattan.get_node_count())
-                        test_map['search'].append('Manhattan Distance')
-
-                    stop = time.time()
-                    time_elapsed = stop - start
-                    test_map['times'].append(time_elapsed)
-                    test_map['start'].append(state)
-
-                self.create_csv(test_map)
-                self.is_test = False
+                self.run_test()
                 print()
                 answer = input('Would you like to perform another test or search? (y/n)\n')
                 while answer != 'y' and answer != 'n':
                     answer = input('Invalid answer. Type \'y\' for yes and \'n\' for no.\n')
                 continue
+
+            while answers == -1:
+                answers = self.display_menu()
 
             start = time.time()
             array = []
@@ -250,6 +335,7 @@ class Main:
                 array = answers['array']
                 self.state_array = array
                 answers['state'] = BreadthSearch.create_state_string(array)
+                self.STARTING_POSITION = answers['state']
             print('Starting Array:')
             self.print_array()
             print()
