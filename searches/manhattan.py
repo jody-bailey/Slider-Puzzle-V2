@@ -5,13 +5,13 @@
 # to be able to function as a stand-alone class as long as it receives the
 # required data to start.
 
-from interface import Interface
-from node import Node
+from helpers.interface import Interface
+from helpers.node import Node
 from copy import deepcopy
 import heapq
 
 
-class MisplacedTiles(Interface):
+class ManhattanDistance(Interface):
 
     # Constructor
     def __init__(self, node):
@@ -29,11 +29,11 @@ class MisplacedTiles(Interface):
     def count_up(self):
         self.counter += 1
 
-    # Returns starting state
+    # Returns the starting state
     def get_starting_state(self):
         return self.starting_state
 
-    # Returns whether a solution was found or not.
+    # Returns whether a solution was found or not
     def get_solution_found(self):
         if self.solution_found:
             return 'Yes'
@@ -44,7 +44,7 @@ class MisplacedTiles(Interface):
     def get_path(self):
         return self.node.path
 
-    # Returns how many nodes of been expored
+    # Returns the amount of nodes that have been explored
     def get_node_count(self):
         return len(self.visited)
 
@@ -71,40 +71,15 @@ class MisplacedTiles(Interface):
         elif num == 0:
             return 2, 2
 
-    # Method to determine how many tiles are out of place.
+    # This method is used to find the Manhattan Distance for the heuristic
     @staticmethod
-    def out_of_place_tiles(array):
+    def manhattan_distance(array):
         total = 0
         for i in range(3):
             for j in range(3):
                 position = (i, j)
-                if position == (0, 0):
-                    if array[i][j] != 1:
-                        total += 1
-                elif position == (0, 1):
-                    if array[i][j] != 2:
-                        total += 1
-                elif position == (0, 2):
-                    if array[i][j] != 3:
-                        total += 1
-                elif position == (1, 0):
-                    if array[i][j] != 4:
-                        total += 1
-                elif position == (1, 1):
-                    if array[i][j] != 5:
-                        total += 1
-                elif position == (1, 2):
-                    if array[i][j] != 6:
-                        total += 1
-                elif position == (2, 0):
-                    if array[i][j] != 7:
-                        total += 1
-                elif position == (2, 1):
-                    if array[i][j] != 8:
-                        total += 1
-                elif position == (2, 2):
-                    if array[i][j] != 0:
-                        total += 1
+                num = ManhattanDistance.get_goal_position(array[i][j])
+                total += abs(num[0] - position[0]) + abs(num[1] - position[1])
         return total
 
     # Method used to check if a state has already been visited
@@ -118,6 +93,9 @@ class MisplacedTiles(Interface):
             total += 1
         return total
 
+    def get_final_depth(self):
+        return self.get_depth(self.node)
+
     # Method to add the moves found to the queue
     def add_moves_to_heap(self, moves, parent):
         for move in moves:
@@ -125,7 +103,7 @@ class MisplacedTiles(Interface):
                 array = self.create_array(move)
                 self.count_up()
                 # node = self.create_node(array, move, parent=parent)
-                heuristic = self.out_of_place_tiles(array)
+                heuristic = self.manhattan_distance(array)
                 depth = self.get_depth(parent) + 1
                 heuristic = heuristic + depth
                 node = Node(array, move, heuristic=heuristic, parent=parent)
@@ -176,7 +154,7 @@ class MisplacedTiles(Interface):
 
         return possible_moves
 
-    # Method to get the final path of the goal state.
+    # Method to ger the final path of the goal state.
     def print_final_path(self, node):
         my_list = self.path[node]
         my_array_list = []
@@ -186,20 +164,15 @@ class MisplacedTiles(Interface):
         for elem in my_list:
             my_array_list.append(self.create_array(elem))
 
-        # print('\n'.join(str(elem) for elem2 in my_array_list for row in elem2 for elem in row), end=' -> ')
-
         for elem2 in my_array_list:
             for row in elem2:
                 print(' '.join(str(elem) for elem in row))
             print()
 
-    def get_final_depth(self):
-        return self.get_depth(self.node)
-
     # Main method of this class. It brings together all of the functionality from
     # the other methods and runs the search.
     def run(self):
-        print('Running A* Misplaced Tiles Search...')
+        print('Running A* Manhattan Distance Search...')
         while self.heap:
             next_node = heapq.heappop(self.heap)
             self.node = next_node[2]

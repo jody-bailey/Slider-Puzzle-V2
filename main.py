@@ -10,13 +10,13 @@
 
 import time
 import os
-from breadth_first import BreadthSearch
-from depth_first import DepthSearch
-from misplaced_tiles import MisplacedTiles
-from manhattan import ManhattanDistance
-from generator import Generator
-from test_generator import TestGenerator
-from node import Node
+from searches.breadth_first import BreadthSearch
+from searches.depth_first import DepthSearch
+from searches.misplaced_tiles import MisplacedTiles
+from searches.manhattan import ManhattanDistance
+from helpers.generator import Generator
+from helpers.test_generator import TestGenerator
+from helpers.node import Node
 import csv
 
 

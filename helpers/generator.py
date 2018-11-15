@@ -4,12 +4,12 @@
 # This class is used to generate random boards that the program can
 # then use for the different searches.
 
-from breadth_first import BreadthSearch
-from interface import Interface
+from searches.breadth_first import BreadthSearch
+from helpers.interface import Interface
 import random
 
 
-class TestGenerator(Interface):
+class Generator(Interface):
     array = []
     zero = []
     one = []
@@ -27,9 +27,15 @@ class TestGenerator(Interface):
         for i in range(3):
             self.array[i] = [0] * 3
 
-        self.moves = [self.swap_0_and_1, self.swap_0_and_3, self.swap_1_and_2, self.swap_1_and_4,
-                      self.swap_2_and_5, self.swap_3_and_4, self.swap_3_and_6, self.swap_4_and_5,
-                      self.swap_4_and_7, self.swap_5_and_8, self.swap_6_and_7, self.swap_7_and_8]
+        self.zero = [self.swap_0_and_1, self.swap_0_and_3]
+        self.one = [self.swap_0_and_1, self.swap_1_and_2, self.swap_1_and_4]
+        self.two = [self.swap_1_and_2, self.swap_2_and_5]
+        self.three = [self.swap_0_and_3, self.swap_3_and_4, self.swap_3_and_6]
+        self.four = [self.swap_1_and_4, self.swap_3_and_4, self.swap_4_and_7, self.swap_4_and_5]
+        self.five = [self.swap_2_and_5, self.swap_4_and_5, self.swap_5_and_8]
+        self.six = [self.swap_3_and_6, self.swap_6_and_7]
+        self.seven = [self.swap_4_and_7, self.swap_6_and_7, self.swap_7_and_8]
+        self.eight = [self.swap_5_and_8, self.swap_7_and_8]
 
     # Method used to set the class level variable named 'array'
     def set_array(self):
@@ -48,23 +54,23 @@ class TestGenerator(Interface):
         for i in range(rand):
             loc = BreadthSearch.locate_hole(self.array)
             if loc == (0, 0):
-                random.choice(self.moves)()
+                random.choice(self.zero)()
             elif loc == (0, 1):
-                random.choice(self.moves)()
+                random.choice(self.one)()
             elif loc == (0, 2):
-                random.choice(self.moves)()
+                random.choice(self.two)()
             elif loc == (1, 0):
-                random.choice(self.moves)()
+                random.choice(self.three)()
             elif loc == (1, 1):
-                random.choice(self.moves)()
+                random.choice(self.four)()
             elif loc == (1, 2):
-                random.choice(self.moves)()
+                random.choice(self.five)()
             elif loc == (2, 0):
-                random.choice(self.moves)()
+                random.choice(self.six)()
             elif loc == (2, 1):
-                random.choice(self.moves)()
+                random.choice(self.seven)()
             elif loc == (2, 2):
-                random.choice(self.moves)()
+                random.choice(self.eight)()
 
     def get_array(self):
         return self.array

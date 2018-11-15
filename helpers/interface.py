@@ -1,4 +1,4 @@
-from node import Node
+from helpers.node import Node
 
 
 class Interface:
